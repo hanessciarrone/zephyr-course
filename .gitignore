@@ -4,3 +4,7 @@ build
 # West files
 .west
 deps
+
+# Zed editor files
+.cache
+compile_commands.json
