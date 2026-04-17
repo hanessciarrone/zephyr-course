@@ -28,6 +28,13 @@ menuconfig LED_SUBSYSTEM
             default 250  if BLINK_SLEEP_PERIOD_250MS
             default 0
 
+        config APP_HEARTBEAT_PERIOD_MS
+            int "Led hearbeat period (ms)"
+            range 100 2000
+            default 500
+            help
+                APP led hearbeat period in milisecond with range of 100 to 2000
+
         menuconfig ADVANCED_LED_SETTINGS
             bool "Advanced LED settings"
 
