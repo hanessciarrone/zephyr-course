@@ -1,0 +1,15 @@
+# NUCLEO-144 F429ZI board configuration
+
+# Copyright (c) 2017 Linaro Limited
+# SPDX-License-Identifier: Apache-2.0
+
+if BOARD_HANES_BOARD
+
+if NETWORKING
+
+config NET_L2_ETHERNET
+	default y
+
+endif # NETWORKING
+
+endif # BOARD_HANES_BOARD

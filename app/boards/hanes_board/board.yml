@@ -1,0 +1,6 @@
+board:
+    name: hanes_board
+    full_name: Nucleo F429ZI
+    vendor: zephyr-course
+    socs:
+        - name: stm32f429xx
