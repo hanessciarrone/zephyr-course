@@ -1,0 +1,127 @@
+/*
+ * Copyright (c) 2017 Linaro Limited
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+#include <st/f4/stm32f429Xi.dtsi>
+#include <st/f4/stm32f429zitx-pinctrl.dtsi>
+
+/ {
+	model = "STMicroelectronics STM32F429ZI-NUCLEO board";
+	compatible = "zephyr-course,scratch_board";
+
+	chosen {
+		zephyr,console = &usart3;
+		zephyr,shell-uart = &usart3;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,ccm = &ccm0;
+		zephyr,code-partition = &slot0_partition;
+	};
+
+	leds: leds {
+		compatible = "gpio-leds";
+
+		green_led_1: led_1 {
+			gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>;
+			label = "User LD1";
+		};
+
+		blue_led_1: led_2 {
+			gpios = <&gpiob 7 GPIO_ACTIVE_HIGH>;
+			label = "User LD2";
+		};
+
+		red_led_1: led_3 {
+			gpios = <&gpiob 14 GPIO_ACTIVE_HIGH>;
+			label = "User LD3";
+		};
+	};
+
+	aliases {
+		led0 = &green_led_1;
+		led1 = &blue_led_1;
+		led2 = &red_led_1;
+	};
+};
+
+&clk_lsi {
+	status = "okay";
+};
+
+&clk_hse {
+	hse-bypass;
+	clock-frequency = <DT_FREQ_M(8)>; /* STLink 8MHz clock */
+	status = "okay";
+};
+
+&pll {
+	div-m = <8>;
+	mul-n = <336>;
+	div-p = <2>;
+	div-q = <7>;
+	clocks = <&clk_hse>;
+	status = "okay";
+};
+
+&rcc {
+	clocks = <&pll>;
+	clock-frequency = <DT_FREQ_M(168)>; /* highest value to get a precise USB clock */
+	ahb-prescaler = <1>;
+	apb1-prescaler = <4>;
+	apb2-prescaler = <2>;
+};
+
+&usart3 {
+	pinctrl-0 = <&usart3_tx_pd8 &usart3_rx_pd9>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+	status = "okay";
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		/* 32KB for bootloader */
+		boot_partition: partition@0 {
+			label = "mcuboot";
+			reg = <0x00000000 DT_SIZE_K(32)>;
+			read-only;
+		};
+
+		/*
+		 * nvs subsystem requires 2 sectors with a max total of 32K
+		 * On F4 series, the only option is to use the following
+		 * partition, which is compatible with mcuboot usage.
+		 * Keep it commented in order it is not used by CI.
+		 *
+		 * storage_partition: partition@8000 {
+		 *	label = "storage";
+		 *	reg = <0x0008000 DT_SIZE_K(32)>;
+		 * };
+		 */
+
+		/* application image slot: 256KB */
+		slot0_partition: partition@20000 {
+			label = "image-0";
+			reg = <0x00020000 DT_SIZE_K(256)>;
+		};
+
+		/* backup slot: 256KB */
+		slot1_partition: partition@60000 {
+			label = "image-1";
+			reg = <0x00060000 DT_SIZE_K(256)>;
+		};
+
+		/* swap slot: 128KB */
+		scratch_partition: partition@a0000 {
+			label = "image-scratch";
+			reg = <0x000a0000 DT_SIZE_K(128)>;
+		};
+	};
+};
