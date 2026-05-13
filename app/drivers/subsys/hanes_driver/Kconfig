@@ -1,0 +1,7 @@
+menuconfig HANES_DRIVER
+    bool "Enable Hanes LED sensor driver"
+    depends on DT_HAS_HANES_DRIVER_ENABLED
+    select GPIO
+    select SENSOR
+    help
+        Enable the simple GPIO-backed LED sensor driver used to toggle LD2.

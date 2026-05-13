@@ -1,3 +1,5 @@
+rsource "drivers/subsys/hanes_driver/Kconfig"
+
 menuconfig LED_SUBSYSTEM
     bool "LED Subsystem"
     default y

@@ -21,6 +21,12 @@
 		zephyr,code-partition = &slot0_partition;
 	};
 
+	ld2_sensor: led-sensor {
+        compatible = "hanes,driver";
+        status = "okay";
+        gpios = <&gpiob 7 GPIO_ACTIVE_HIGH>;
+    };
+
 	leds: leds {
 		compatible = "gpio-leds";
 
@@ -44,6 +50,7 @@
 		led0 = &green_led_1;
 		led1 = &blue_led_1;
 		led2 = &red_led_1;
+		hanes-led-sensor = &ld2_sensor;
 	};
 };
 

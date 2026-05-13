@@ -1,0 +1,11 @@
+description: Simple GPIO-backed LED sensor driver
+
+compatible: "hanes,driver"
+
+include: base.yaml
+
+properties:
+    gpios:
+        type: phandle-array
+        required: true
+        description: GPIO used to drive the LED sensor output
