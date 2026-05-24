@@ -1,3 +1,4 @@
+#include "zephyr/shell/shell_fprintf.h"
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/kernel.h>
@@ -18,6 +19,8 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 static int cmd_sensor_fetch(const struct shell *sh, size_t argc, char **argv);
 static int cmd_sensor_get(const struct shell *sh, size_t argc, char **argv);
 static int cmd_sensor_info(const struct shell *sh, size_t argc, char **argv);
+static int cmd_sensor_set_data(const struct shell *sh, size_t argc, char **argv);
+static int cmd_sensor_get_data(const struct shell *sh, size_t argc, char **argv);
 
 int main(void)
 {
@@ -78,11 +81,43 @@ static int cmd_sensor_info(const struct shell *sh, size_t argc, char **argv)
     return 0;
 }
 
+static int cmd_sensor_set_data(const struct shell *sh, size_t argc, char **argv)
+{
+    if (argc < 1)
+    {
+        shell_error(sh, "Argument missing");
+    }
+
+    const int length = strlen(argv[1]);
+
+    if (length >= CONFIG_HANES_DRIVER_MESSAGE_MAX_LEN)
+    {
+        shell_error(sh, "Message too long");
+    }
+
+    hanes_driver_set_message(led_sensor, argv[1]);
+
+    return 0;
+}
+
+static int cmd_sensor_get_data(const struct shell *sh, size_t argc, char **argv)
+{
+
+    const char *msg;
+
+    hanes_driver_get_message(led_sensor, &msg);
+    shell_fprintf(sh, SHELL_VT100_COLOR_DEFAULT, "Device data = %s\n", msg);
+
+    return 0;
+}
+
 SHELL_STATIC_SUBCMD_SET_CREATE(
     sub_sensor,
     SHELL_CMD(fetch, NULL, "Turn ON/OFF sensor led",    cmd_sensor_fetch),
     SHELL_CMD(read,  NULL, "Get sensor led state",      cmd_sensor_get),
     SHELL_CMD(info,  NULL, "Get information of device", cmd_sensor_info),
+    SHELL_CMD(get,   NULL, "Get the message device",    cmd_sensor_get_data),
+    SHELL_CMD_ARG(set, NULL, "Set the message device", cmd_sensor_set_data, 2, 0),
     SHELL_SUBCMD_SET_END
 );
 
