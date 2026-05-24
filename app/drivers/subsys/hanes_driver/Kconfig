@@ -5,3 +5,11 @@ menuconfig HANES_DRIVER
     select SENSOR
     help
         Enable the simple GPIO-backed LED sensor driver used to toggle LD2.
+
+    if HANES_DRIVER
+        config HANES_DRIVER_MESSAGE_MAX_LEN
+            int "Maximum message length"
+            default 64
+            help
+                Maximum message length (Please note it is the length of an array of char)
+    endif # HANES_DRIVER

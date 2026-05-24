@@ -3,6 +3,8 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
+#include <hanes_driver.h>
+
 #define SLEEP_TIME_MS CONFIG_APP_HEARTBEAT_PERIOD_MS
 
 #define SENSOR_NODE DT_ALIAS(hanes_led_sensor)
@@ -13,13 +15,14 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
 int main(void)
 {
+    struct sensor_value state;
+    const char *msg;
+
     if (!device_is_ready(led_sensor))
     {
         LOG_ERR("LD2 sensor device not ready");
         return 0;
     }
-
-    struct sensor_value state;
 
     LOG_INF("Board name: %s", CONFIG_BOARD);
 
@@ -42,7 +45,10 @@ int main(void)
         }
         else
         {
-            LOG_INF("LD2 state %d", state.val1);
+            hanes_driver_set_message(led_sensor,
+                                     state.val1 ? "LD2 -> ON" : "LD2 -> OFF");
+            hanes_driver_get_message(led_sensor, &msg);
+            LOG_INF("%s, state=%d", msg, state.val1);
         }
 
         k_msleep(SLEEP_TIME_MS);

@@ -1,5 +1,12 @@
 /{
+    ld2_sensor: led-sensor {
+       compatible = "hanes,driver";
+       status = "okay";
+       gpios = <&gpiob 7 GPIO_ACTIVE_HIGH>;
+    };
+
     aliases {
         app-led = &green_led_1;
+        hanes-led-sensor = &ld2_sensor;
     };
 };
