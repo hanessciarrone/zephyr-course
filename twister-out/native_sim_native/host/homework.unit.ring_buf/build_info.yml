@@ -1,0 +1,48 @@
+cmake:
+  application:
+    configuration-dir: '/home/hanes/zephyr-course/zephyrproject/zephyr-course/tests/ring_buf'
+    source-dir: '/home/hanes/zephyr-course/zephyrproject/zephyr-course/tests/ring_buf'
+  board:
+    name: 'native_sim'
+    path:
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/boards/native/native_sim'
+    qualifiers: 'native'
+    revision: ''
+  devicetree:
+    bindings-dirs:
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/bindings'
+    files:
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/boards/native/native_sim/native_sim.dts'
+    include-dirs:
+     - '/home/hanes/zephyr-course/zephyrproject/deps/modules/hal/stm32/dts'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/include'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/include/zephyr'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/common'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/vendor'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/rx'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/x86'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/xtensa'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/sparc'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/riscv'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/posix'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/arm64'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/arm'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts/arc'
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/dts'
+  kconfig:
+    extra-user-files:
+     - '/home/hanes/zephyr-course/zephyrproject/zephyr-course/twister-out/native_sim_native/host/homework.unit.ring_buf/twister/testsuite_extra.conf'
+    files:
+     - '/home/hanes/zephyr-course/zephyrproject/deps/zephyr/boards/native/native_sim/native_sim_defconfig'
+     - '/home/hanes/zephyr-course/zephyrproject/zephyr-course/tests/ring_buf/prj.conf'
+     - '/home/hanes/zephyr-course/zephyrproject/zephyr-course/twister-out/native_sim_native/host/homework.unit.ring_buf/twister/testsuite_extra.conf'
+     - '/home/hanes/zephyr-course/zephyrproject/zephyr-course/twister-out/native_sim_native/host/homework.unit.ring_buf/zephyr/misc/generated/extra_kconfig_options.conf'
+    user-files:
+     - '/home/hanes/zephyr-course/zephyrproject/zephyr-course/tests/ring_buf/prj.conf'
+  toolchain:
+    name: 'host'
+    path: ''
+  zephyr:
+    version: '4.2.0'
+    zephyr-base: '/home/hanes/zephyr-course/zephyrproject/deps/zephyr'
+version: '0.1.0'
